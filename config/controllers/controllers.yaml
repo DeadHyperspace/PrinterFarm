@@ -1,0 +1,5 @@
+services:
+  App\Controller\PrinterController:
+    class: App\Controller\PrinterController
+    autowire: true
+    public: true

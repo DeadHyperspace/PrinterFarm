@@ -1,0 +1,60 @@
+
+
+networks:
+
+  resource1:
+    name: resource1
+    driver: bridge
+services:
+  farm-3d-print-db:
+    container_name: farm-3d-print-db
+    image: postgres:12.3-alpine
+    restart: no
+    networks:
+      - resource1
+    environment:
+      POSTGRES_PASSWORD: developer
+      POSTGRES_USER: developer
+      POSTGRES_DB: farm_db
+      POSTGRES_HOST_AUTH_METHOD: password
+    ports:
+      - 30777:5432
+    hostname: db.farm-3d-print.res
+    volumes:
+      - type: volume
+        source: farm_db
+        target: /var/lib/postgresql/data
+
+  farm-3d-php:
+    container_name: farm-3d-php
+    image: farm3d-php
+    restart: no
+    build: ./.docker/app/
+    volumes:
+      - ".:/var/www/farm3d"
+    networks:
+      - resource1
+    hostname: app.farm3d.loc
+    depends_on:
+      - farm-3d-print-db
+    
+  farm-3d-nginx:
+    container_name: farm-3d-nginx
+    image: nginx:1.19-alpine
+    restart: no
+    ports:
+      - "30778:80"
+    networks:
+      - resource1
+    hostname: api.farm3d.srv
+    volumes:
+      - "./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf"
+      - "./.docker/nginx/farm3d.conf:/etc/nginx/conf.d/default.conf"
+      - ".:/var/www/farm3d"
+    depends_on:
+      - farm-3d-php
+
+volumes:
+  farm_db:
+    driver: local
+
