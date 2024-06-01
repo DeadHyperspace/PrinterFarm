@@ -3,3 +3,7 @@ services:
     class: App\Controller\PrinterController
     autowire: true
     public: true
+  App\Controller\PlasticController:
+    class: App\Controller\PlasticController
+    autowire: true
+    public: true

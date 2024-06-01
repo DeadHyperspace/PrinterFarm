@@ -37,9 +37,10 @@ class Plastic
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(int $id): Plastic
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getName(): string
@@ -47,9 +48,10 @@ class Plastic
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name): Plastic
     {
         $this->name = $name;
+        return $this;
     }
 
     public function getLength(): int
@@ -57,9 +59,10 @@ class Plastic
         return $this->length;
     }
 
-    public function setLength(int $length): void
+    public function setLength(int $length): Plastic
     {
         $this->length = $length;
+        return $this;
     }
 
     public function getDurability(): int
@@ -67,9 +70,10 @@ class Plastic
         return $this->durability;
     }
 
-    public function setDurability(int $durability): void
+    public function setDurability(int $durability): Plastic
     {
         $this->durability = $durability;
+        return $this;
     }
 
     public function getMinTemperature(): int
@@ -77,9 +81,10 @@ class Plastic
         return $this->minTemperature;
     }
 
-    public function setMinTemperature(int $minTemperature): void
+    public function setMinTemperature(int $minTemperature): Plastic
     {
         $this->minTemperature = $minTemperature;
+        return $this;
     }
 
 
