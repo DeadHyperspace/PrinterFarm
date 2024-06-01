@@ -54,6 +54,7 @@ class PlasticController
     #[Route('/createPlastic', name: 'create_plastic', methods: ['POST'])]
     public function createPlastic(Request $request): JsonResponse
     {
+
         $json = json_decode($request->getContent(), true);
 
         if (!is_array($json)) {
@@ -89,7 +90,7 @@ class PlasticController
         if (!is_int($json['min_temperature'])) {
             throw new InvalidArgumentException("Invalid json, min_temperature not an integer");
         }
-
+        file_put_contents(__DIR__ . '/../../var/test.json', json_encode($json, JSON_PRETTY_PRINT));
         $plastic = $this->plasticService->createPlastic(PlasticHydrator::hydrate($json));
         return $this->jsonResponseBuilder($plastic);
     }
