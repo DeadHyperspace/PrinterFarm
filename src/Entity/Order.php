@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\OrderRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 #[
     ORM\Table(name: 'orders'),
@@ -26,9 +28,11 @@ class Order
     #[ORM\Column(name: 'status', type: 'string')]
     private int $status;
 
-    #[ORM\ManyToOne(targetEntity: Model::class, fetch: 'EXTRA_LAZY', inversedBy: 'orders')]
-    #[ORM\JoinColumn(name: 'model_id', referencedColumnName: 'id', nullable: false)]
-    private Model $model;
+    #[ORM\ManyToOne(targetEntity: Model::class)]
+    #[ORM\JoinTable(name: 'order_models')]
+    #[ORM\JoinColumn(name:'order_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'model_id', referencedColumnName: 'id')]
+    private Collection $models;
 
     public function __construct()
     {
@@ -74,13 +78,15 @@ class Order
         $this->status = $status;
     }
 
-    public function getModel(): Model
+    public function getModels(): Collection
     {
-        return $this->model;
+        return $this->models;
     }
 
-    public function setModel(Model $model): void
+    public function setModels(Collection $models): void
     {
-        $this->model = $model;
+        $this->models = $models;
     }
+
+
 }

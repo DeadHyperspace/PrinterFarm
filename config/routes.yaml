@@ -17,3 +17,11 @@ getPlastic:
 createPlastic:
     path: /createPlastic
     controller: App\Controller\PlasticController::createPlastic
+
+getModel:
+    path: /getModel
+    controller: App\Controller\ModelController::getModel
+
+createModel:
+    path: /createModel
+    controller: App\Controller\ModelController::createModel

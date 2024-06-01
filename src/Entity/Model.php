@@ -10,10 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
     ORM\Table(name: 'models'),
     ORM\Entity(repositoryClass: ModelRepository::class)
 ]
-
 class Model
 {
-  #[ORM\Id()]
+    #[ORM\Id()]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column(name: 'id', type: 'integer')]
     private int $id;
@@ -27,13 +26,8 @@ class Model
     #[ORM\Column(name: 'durability', type: 'integer')]
     private int $durability;
 
-    #[
-        ORM\OneToMany(
-            mappedBy: 'model',
-            targetEntity: Order::class,
-            cascade: ['persist'],
-            fetch: 'EXTRA_LAZY'
-        )]
+    #[ORM\ManyToMany(targetEntity: Order::class, inversedBy: 'models')]
+    #[ORM\JoinTable(name: 'order_models')]
     private Collection $orders;
 
     public function __construct()
@@ -45,9 +39,10 @@ class Model
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(int $id): Model
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getName(): string
@@ -55,9 +50,10 @@ class Model
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name): Model
     {
         $this->name = $name;
+        return $this;
     }
 
     public function getPlasticLength(): int
@@ -65,9 +61,10 @@ class Model
         return $this->plasticLength;
     }
 
-    public function setPlasticLength(int $plasticLength): void
+    public function setPlasticLength(int $plasticLength): Model
     {
         $this->plasticLength = $plasticLength;
+        return $this;
     }
 
     public function getDurability(): int
@@ -75,9 +72,10 @@ class Model
         return $this->durability;
     }
 
-    public function setDurability(int $durability): void
+    public function setDurability(int $durability): Model
     {
         $this->durability = $durability;
+        return $this;
     }
 
     public function getOrders(): Collection
@@ -85,8 +83,9 @@ class Model
         return $this->orders;
     }
 
-    public function setOrders(Collection $orders): void
+    public function setOrders(Collection $orders): Model
     {
         $this->orders = $orders;
+        return $this;
     }
 }

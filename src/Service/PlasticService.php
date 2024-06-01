@@ -29,16 +29,16 @@ class PlasticService
     }
 
     /**
-     * @param PlasticDTO $dto
+     * @param PlasticDTO $plasticDTO
      * @return Plastic
      */
-    public function createPlastic(PlasticDTO $dto): Plastic
+    public function createPlastic(PlasticDTO $plasticDTO): Plastic
     {
         $plastic = new Plastic();
-        $plastic->setName($dto->getName())
-            ->setLength($dto->getLength())
-            ->setDurability($dto->getDurability())
-            ->setMinTemperature($dto->getMinTemperature());
+        $plastic->setName($plasticDTO->getName())
+            ->setLength($plasticDTO->getLength())
+            ->setDurability($plasticDTO->getDurability())
+            ->setMinTemperature($plasticDTO->getMinTemperature());
 
         $this->entityManager->persist($plastic);
         $this->entityManager->flush();
