@@ -43,9 +43,10 @@ class Order
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(int $id): Order
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getCreatedAt(): DateTime
@@ -53,9 +54,10 @@ class Order
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt): Order
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
     public function getPrice(): int
@@ -63,9 +65,10 @@ class Order
         return $this->price;
     }
 
-    public function setPrice(int $price): void
+    public function setPrice(int $price): Order
     {
         $this->price = $price;
+        return $this;
     }
 
     public function getStatus(): int
@@ -73,9 +76,10 @@ class Order
         return $this->status;
     }
 
-    public function setStatus(int $status): void
+    public function setStatus(int $status): Order
     {
         $this->status = $status;
+        return $this;
     }
 
     public function getModels(): Collection
@@ -83,9 +87,10 @@ class Order
         return $this->models;
     }
 
-    public function setModels(Collection $models): void
+    public function setModels(Collection $models): Order
     {
         $this->models = $models;
+        return $this;
     }
 
 

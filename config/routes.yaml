@@ -25,3 +25,10 @@ getModel:
 createModel:
     path: /createModel
     controller: App\Controller\ModelController::createModel
+
+getOrder:
+    path: /getOrder
+    controller: App\Controller\OrderController::getOrder
+createOrder:
+    path: /createOrder
+    controller: App\Controller\OrderController::createOrder
