@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\OrderRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 #[
     ORM\Table(name: 'orders'),
@@ -26,9 +28,11 @@ class Order
     #[ORM\Column(name: 'status', type: 'string')]
     private int $status;
 
-    #[ORM\ManyToOne(targetEntity: Model::class, fetch: 'EXTRA_LAZY', inversedBy: 'orders')]
-    #[ORM\JoinColumn(name: 'model_id', referencedColumnName: 'id', nullable: false)]
-    private Model $model;
+    #[ORM\ManyToOne(targetEntity: Model::class)]
+    #[ORM\JoinTable(name: 'order_models')]
+    #[ORM\JoinColumn(name:'order_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'model_id', referencedColumnName: 'id')]
+    private Collection $models;
 
     public function __construct()
     {
@@ -39,9 +43,10 @@ class Order
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(int $id): Order
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getCreatedAt(): DateTime
@@ -49,9 +54,10 @@ class Order
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt): Order
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
     public function getPrice(): int
@@ -59,9 +65,10 @@ class Order
         return $this->price;
     }
 
-    public function setPrice(int $price): void
+    public function setPrice(int $price): Order
     {
         $this->price = $price;
+        return $this;
     }
 
     public function getStatus(): int
@@ -69,18 +76,22 @@ class Order
         return $this->status;
     }
 
-    public function setStatus(int $status): void
+    public function setStatus(int $status): Order
     {
         $this->status = $status;
+        return $this;
     }
 
-    public function getModel(): Model
+    public function getModels(): Collection
     {
-        return $this->model;
+        return $this->models;
     }
 
-    public function setModel(Model $model): void
+    public function setModels(Collection $models): Order
     {
-        $this->model = $model;
+        $this->models = $models;
+        return $this;
     }
+
+
 }

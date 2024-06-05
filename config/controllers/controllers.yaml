@@ -3,3 +3,15 @@ services:
     class: App\Controller\PrinterController
     autowire: true
     public: true
+  App\Controller\PlasticController:
+    class: App\Controller\PlasticController
+    autowire: true
+    public: true
+  App\Controller\ModelController:
+    class: App\Controller\ModelController
+    autowire: true
+    public: true
+  App\Controller\OrderController:
+    class: App\Controller\OrderController
+    autowire: true
+    public: true

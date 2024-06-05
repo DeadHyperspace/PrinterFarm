@@ -5,3 +5,30 @@ controllers:
 getPrinter:
     path: /getPrinter
     controller: App\Controller\PrinterController::getPrinter
+
+createPrinter:
+    path: /createPrinter
+    controller: App\Controller\PrinterController::createPrinter
+
+getPlastic:
+    path: /getPlastic
+    controller: App\Controller\PlasticController::getPlastic
+
+createPlastic:
+    path: /createPlastic
+    controller: App\Controller\PlasticController::createPlastic
+
+getModel:
+    path: /getModel
+    controller: App\Controller\ModelController::getModel
+
+createModel:
+    path: /createModel
+    controller: App\Controller\ModelController::createModel
+
+getOrder:
+    path: /getOrder
+    controller: App\Controller\OrderController::getOrder
+createOrder:
+    path: /createOrder
+    controller: App\Controller\OrderController::createOrder

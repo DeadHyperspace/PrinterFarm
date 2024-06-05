@@ -46,7 +46,7 @@ class PrinterController
             throw new InvalidArgumentException("Invalid json, name not a string");
         }
 
-        $printer = $this->printer3DService->getPrinterByModel($json['name']);
+        $printer = $this->printer3DService->getPrinterByName($json['name']);
         if ($printer === null) {
             throw new Exception("Printer not found");
         }
