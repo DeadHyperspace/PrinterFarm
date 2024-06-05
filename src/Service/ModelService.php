@@ -5,7 +5,6 @@ namespace App\Service;
 use App\DTO\ModelDTO;
 use App\Entity\Model;
 use App\Repository\ModelRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ModelService
