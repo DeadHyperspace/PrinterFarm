@@ -93,5 +93,10 @@ class Order
         return $this;
     }
 
+    public function addModel(Model $model): self
+    {
+        $this->models->add($model);
+        return $this;
+    }
 
 }

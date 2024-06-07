@@ -28,6 +28,10 @@ class Plastic
     #[ORM\Column(name: 'min_temperature', type: 'integer')]
     private int $minTemperature;
 
+    #[ORM\Column(name: 'price_per_meter', type: 'integer')]
+    private int $pricePerMeter;
+
+
     public function __construct()
     {
     }
@@ -86,6 +90,18 @@ class Plastic
         $this->minTemperature = $minTemperature;
         return $this;
     }
+
+    public function getPricePerMeter(): int
+    {
+        return $this->pricePerMeter;
+    }
+
+    public function setPricePerMeter(int $pricePerMeter): Plastic
+    {
+        $this->pricePerMeter = $pricePerMeter;
+        return $this;
+    }
+
 
 
 }

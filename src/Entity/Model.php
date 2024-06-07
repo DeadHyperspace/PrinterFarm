@@ -30,6 +30,9 @@ class Model
     #[ORM\JoinTable(name: 'order_models')]
     private Collection $orders;
 
+    #[ORM\Column(name: 'plastic_length_per_model', type: 'integer')]
+    private int $plasticLengthPerModel;
+
     public function __construct()
     {
     }
@@ -88,4 +91,16 @@ class Model
         $this->orders = $orders;
         return $this;
     }
+
+    public function getPlasticLengthPerModel(): int
+    {
+        return $this->plasticLengthPerModel;
+    }
+
+    public function setPlasticLengthPerModel(int $plasticLengthPerModel): Model
+    {
+        $this->plasticLengthPerModel = $plasticLengthPerModel;
+        return $this;
+    }
+
 }

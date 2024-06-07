@@ -13,8 +13,8 @@ class ModelHydrator
         $dto->setId($data["id"] ?? null)
             ->setName($data["name"] ?? null)
             ->setDurability($data["durability"] ?? null)
-            ->setPlasticLength($data["plastic_length"] ?? null);
-
+            ->setPlasticLength($data["plastic_length"] ?? null)
+            ->setOrders($data["orders"] ?? null);
         return $dto;
     }
 }

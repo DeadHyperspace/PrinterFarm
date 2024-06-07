@@ -2,6 +2,7 @@
 
 namespace App\DTO;
 
+use App\Entity\Model;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 
@@ -72,6 +73,11 @@ class OrderDTO
         return $this;
     }
 
-
+    public function getModelNames(): array
+    {
+        return array_map(function (Model $model) {
+            return $model->getName();
+        }, (array)$this->models);
+    }
 
 }

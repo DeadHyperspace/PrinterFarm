@@ -10,6 +10,8 @@ class PlasticDTO
     private ?int $durability;
     private ?int $minTemperature;
 
+    private ?int $pricePerMeter;
+
     public function __construct()
     {
     }
@@ -66,6 +68,17 @@ class PlasticDTO
     public function setMinTemperature(?int $minTemperature): PlasticDTO
     {
         $this->minTemperature = $minTemperature;
+        return $this;
+    }
+
+    public function getPricePerMeter(): ?int
+    {
+        return $this->pricePerMeter;
+    }
+
+    public function setPricePerMeter(?int $pricePerMeter): PlasticDTO
+    {
+        $this->pricePerMeter = $pricePerMeter;
         return $this;
     }
 
