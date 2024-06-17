@@ -13,8 +13,7 @@ class ModelService
     public function __construct(
         private readonly ModelRepository $modelRepository,
         private readonly EntityManagerInterface $entityManager,
-    )
-    {
+    ) {
     }
 
     public function getModelByName(string $name): ?Model
@@ -27,7 +26,8 @@ class ModelService
         $model = new Model();
         $model->setName($modelDTO->getName())
             ->setPlasticLength($modelDTO->getPlasticLength())
-            ->setDurability($modelDTO->getDurability());
+            ->setDurability($modelDTO->getDurability())
+            ->setOrders($modelDTO->getOrders());
 
         $this->entityManager->persist($model);
         $this->entityManager->flush();

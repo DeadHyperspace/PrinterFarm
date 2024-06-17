@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Order;use App\Hydrators\OrderHydrator;use App\Service\OrderService;
+use App\Entity\Order;
+use App\Hydrators\OrderHydrator;
+use App\Service\OrderService;
+use Doctrine\Common\Collections\Collection;
 use Exception;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -51,7 +54,7 @@ class OrderController
      * @param Request $request
      * @return JsonResponse
      */
-    
+
     #[Route('/createOrder', name: 'create_order', methods: ['POST'])]
     public function createOrder(Request $request): JsonResponse
     {
@@ -68,7 +71,7 @@ class OrderController
         if (!is_string($json['id'])) {
             throw new InvalidArgumentException("Invalid json, id not a string");
         }
-        
+
         if (!array_key_exists('price', $json)) {
             throw new InvalidArgumentException("Invalid json, price not provided");
         }
@@ -98,10 +101,26 @@ class OrderController
         $jsonResponse = new JsonResponse();
         $json = [
             'id' => $order->getId(),
-            'price' => $order->getPrice(),
+            'price' => $this->countPrice($order->getPrice()),
             'status' => $order->getStatus(),
+            'created_at' => $order->getCreatedAt(),
+            'models' => $this->persistsModels($order->getModels()),
         ];
         $jsonResponse->setData(json_encode($json));
         return $jsonResponse;
+    }
+
+    private function persistsModels(Collection $models): array
+    {
+        $persistModels = [];
+        foreach ($models as $model) {
+            $persistModels[] = [
+                'id' => $model->getId(),
+                'name' => $model->getName(),
+                'plastic_length' => $model->getPlasticLength(),
+                'durability' => $model->getDurability(),
+            ];
+        }
+        return $persistModels;
     }
 }

@@ -73,11 +73,4 @@ class OrderDTO
         return $this;
     }
 
-    public function getModelNames(): array
-    {
-        return array_map(function (Model $model) {
-            return $model->getName();
-        }, (array)$this->models);
-    }
-
 }

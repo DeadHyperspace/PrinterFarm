@@ -25,13 +25,10 @@ class Model
 
     #[ORM\Column(name: 'durability', type: 'integer')]
     private int $durability;
+    #[ORM\ManyToOne(targetEntity: Order::class, fetch: 'EXTRA_LAZY', inversedBy: 'models')]
+    #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id', nullable: false,onDelete: 'RESTRICT')]
+    protected Order $order;
 
-    #[ORM\ManyToMany(targetEntity: Order::class, inversedBy: 'models')]
-    #[ORM\JoinTable(name: 'order_models')]
-    private Collection $orders;
-
-    #[ORM\Column(name: 'plastic_length_per_model', type: 'integer')]
-    private int $plasticLengthPerModel;
 
     public function __construct()
     {
@@ -92,15 +89,5 @@ class Model
         return $this;
     }
 
-    public function getPlasticLengthPerModel(): int
-    {
-        return $this->plasticLengthPerModel;
-    }
-
-    public function setPlasticLengthPerModel(int $plasticLengthPerModel): Model
-    {
-        $this->plasticLengthPerModel = $plasticLengthPerModel;
-        return $this;
-    }
 
 }

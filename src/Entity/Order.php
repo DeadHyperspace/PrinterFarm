@@ -28,10 +28,7 @@ class Order
     #[ORM\Column(name: 'status', type: 'string')]
     private int $status;
 
-    #[ORM\ManyToOne(targetEntity: Model::class)]
-    #[ORM\JoinTable(name: 'order_models')]
-    #[ORM\JoinColumn(name:'order_id', referencedColumnName: 'id')]
-    #[ORM\InverseJoinColumn(name: 'model_id', referencedColumnName: 'id')]
+    #[ORM\OneToMany(mappedBy: 'order',targetEntity: Model::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     private Collection $models;
 
     public function __construct()
@@ -93,6 +90,10 @@ class Order
         return $this;
     }
 
+    /**
+     * @param Model $model
+     * @return $this
+     */
     public function addModel(Model $model): self
     {
         $this->models->add($model);
