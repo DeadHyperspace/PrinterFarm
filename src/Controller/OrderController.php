@@ -101,7 +101,7 @@ class OrderController
         $jsonResponse = new JsonResponse();
         $json = [
             'id' => $order->getId(),
-            'price' => $this->countPrice($order->getPrice()),
+            'price' => OrderService::countPrice($order->getPrice()),
             'status' => $order->getStatus(),
             'created_at' => $order->getCreatedAt(),
             'models' => $this->persistsModels($order->getModels()),
