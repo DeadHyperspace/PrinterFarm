@@ -3,24 +3,21 @@
 namespace App\Hydrators;
 
 use App\DTO\ModelDTO;
-use App\DTO\OrderDTO;
+use App\DTO\OrderRequestDTO;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 class OrderHydrator
 {
-    public function hydrate($data): OrderDTO
+    public static function hydrate(array $json): ?OrderRequestDTO
     {
-        $dto = new OrderDTO();
-        $dto->setId($data['id'] ?? null)
-            ->setCreatedAt($data['created_at'] ?? null)
-            ->setStatus($data['status'] ?? null)
-            ->setPrice($data['price'] ?? null)
-            ->setModels($this->persistModels($data['models'] ?? null));
-        return $dto;
+        $orderDTO = new OrderRequestDTO();
+        $modelCollection = self::persistModels($json["model"]);
+        $orderDTO->setModel($modelCollection);
+        return $orderDTO;
     }
 
-    private function persistModels(array $models): Collection
+    private static function persistModels(array $models): ArrayCollection
     {
         $collection = new ArrayCollection();
         foreach ($models as $model) {

@@ -60,36 +60,31 @@ class OrderController
     {
         $json = json_decode($request->getContent(), true);
 
-        if (!is_array($json)) {
-            throw new InvalidArgumentException("Invalid json");
-        }
+//        if (!is_array($json)) {
+//            throw new InvalidArgumentException("Invalid json");
+//        }
+//
+//        if (!array_key_exists('id', $json)) {
+//            throw new InvalidArgumentException("Invalid json, id not provided");
+//        }
+//
+//        if (!is_string($json['id'])) {
+//            throw new InvalidArgumentException("Invalid json, id not a string");
+//        }
+//
+//        if (!array_key_exists('price', $json)) {
+//            throw new InvalidArgumentException("Invalid json, price not provided");
+//        }
+//
+//        if (!is_int($json['price'])) {
+//            throw new InvalidArgumentException("Invalid json, price not an integer");
+//        }
+        $orderDTO = OrderHydrator::hydrate($json);
 
-        if (!array_key_exists('id', $json)) {
-            throw new InvalidArgumentException("Invalid json, id not provided");
-        }
 
-        if (!is_string($json['id'])) {
-            throw new InvalidArgumentException("Invalid json, id not a string");
-        }
+        $this->orderService->countFullPriceForOrder($orderDTO);
 
-        if (!array_key_exists('price', $json)) {
-            throw new InvalidArgumentException("Invalid json, price not provided");
-        }
-
-        if (!is_int($json['price'])) {
-            throw new InvalidArgumentException("Invalid json, price not an integer");
-        }
-
-        if (!array_key_exists('status', $json)) {
-            throw new InvalidArgumentException("Invalid json, price not provided");
-        }
-
-        if (!is_string($json['status'])) {
-            throw new InvalidArgumentException("Invalid json, price not an integer");
-        }
-
-        $order = $this->orderService->createOrder(OrderHydrator::hydrate($json));
-        return $this->jsonResponseBuilder($order);
+        return new JsonResponse();
     }
 
     /**
@@ -101,7 +96,7 @@ class OrderController
         $jsonResponse = new JsonResponse();
         $json = [
             'id' => $order->getId(),
-            'price' => OrderService::countPrice($order->getPrice()),
+            'price' => $order->getPrice(),
             'status' => $order->getStatus(),
             'created_at' => $order->getCreatedAt(),
             'models' => $this->persistsModels($order->getModels()),

@@ -2,11 +2,12 @@
 
 namespace App\Service;
 
-use App\DTO\OrderDTO;
+use App\DTO\OrderRequestDTO;
 use App\Entity\Model;
 use App\Entity\Order;
 use App\Repository\ModelRepository;
 use App\Repository\OrderRepository;
+use App\Repository\PlasticRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -22,6 +23,7 @@ class OrderService
     public function __construct(
         private readonly OrderRepository $orderRepository,
         private readonly EntityManagerInterface $entityManager,
+        private readonly PlasticRepository $plasticRepository,
     ) {
     }
 
@@ -34,54 +36,34 @@ class OrderService
         return $this->orderRepository->findOneBy(['id' => $id]);
     }
 
-    public function countPrice(array $models): int
+    public function countFullPriceForOrder(OrderRequestDTO $orderRequestDTO): int
     {
-        $totalPrice = 0;
-        $basicPrice = 5000;
-        $plasticLength = [];
-        $pricePerMeter = [];
-        $durability = [];
-        foreach ($models as $model) {
-            $gettingDurabilitySQL = "SELECT durability, FROM models WHERE id = :id";
-            $statement = $this->entityManager->getConnection()->prepare($gettingDurabilitySQL);
-            $statement->bindValue(':id', $model->getId());
-            $statement->executeQuery();
-            $durability[] += $statement->fetchOne();
-        }
-        foreach ($models as $model) {
-            $gettingPlasticLengthSQL = "SELECT plastic_length, FROM models WHERE id = :id";
-            $statement = $this->entityManager->getConnection()->prepare($gettingPlasticLengthSQL);
-            $statement->bindValue(':id', $model->getId());
-            $statement->executeQuery();
-            $plasticLength[] += $statement->fetchOne();
-        }
-        foreach ($durability as $durabilityModel) {
-            $getPricePerMeter = "SELECT price_per_meter, FROM plastics WHERE durability = :durability";
-            $statement = $this->entityManager->getConnection()->prepare($gettingPlasticLengthSQL);
-            $statement->bindValue(':durability', $durabilityModel);
-            $statement->executeQuery();
-            $pricePerMeter[] += $statement->fetchOne();
-        }
+        $modelsCollection = $orderRequestDTO->getModel();
+        foreach ($modelsCollection as $model){
 
-        foreach ($plasticLength as $key => $value) {
-            $totalPrice += $value * $pricePerMeter[$key];
+//            var_dump($model->getName());
+//            var_dump($model->getPlasticLength());
         }
-        $totalPrice += $basicPrice;
-        return $totalPrice;
+        $plastic = $this->plasticRepository->findOneBy(['durability' => 50]);
+        var_dump($plastic);
+        var_dump($plastic->getDurability());
+        die;
+
+    return 0;
     }
 
     /**
-     * @param OrderDTO $orderDTO
+     * @param OrderRequestDTO $orderDTO
      * @return Order
      */
-    public function createOrder(OrderDTO $orderDTO): Order
+    public function createOrder(OrderRequestDTO $orderDTO): Order
     {
         $order = new Order();
         $order->setId($orderDTO->getId())
             ->setModels($orderDTO->getModels())
             ->setStatus($orderDTO->getStatus())
             ->setCreatedAt($orderDTO->getCreatedAt())
-            ->setPrice($orderDTO->getPrice());
+            ->setPrice($this->countFullPriceForOrder());
 
 
         $this->entityManager->persist($order);
