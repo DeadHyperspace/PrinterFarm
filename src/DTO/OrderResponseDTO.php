@@ -8,4 +8,8 @@ use Doctrine\Common\Collections\Collection;
 class OrderResponseDTO
 {
 
+
+    public function __construct()
+    {
+    }
 }

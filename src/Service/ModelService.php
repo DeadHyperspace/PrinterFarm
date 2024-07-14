@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use App\DTO\ModelDTO;
+use App\DTO\OrderRequestDTO;
 use App\Entity\Model;
+use App\Entity\Order;
 use App\Repository\ModelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -21,17 +23,13 @@ class ModelService
         return $this->modelRepository->findOneBy(['name' => $name]);
     }
 
-    public function createModel(ModelDTO $modelDTO): Model
+    public function createModel(ModelDTO $modelDTO, Order $order): Model
     {
-        $model = new Model();
+        $model = new Model;
         $model->setName($modelDTO->getName())
-            ->setPlasticLength($modelDTO->getPlasticLength())
+            ->setOrder($order)
             ->setDurability($modelDTO->getDurability())
-            ->setOrders($modelDTO->getOrders());
-
-        $this->entityManager->persist($model);
-        $this->entityManager->flush();
-
+            ->setPlasticLength($modelDTO->getPlasticLength());
         return $model;
     }
 }

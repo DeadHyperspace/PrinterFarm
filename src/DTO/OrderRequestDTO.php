@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class OrderRequestDTO
 {
+    /** @var ArrayCollection<ModelDTO>   */
     private ArrayCollection $model;
 
     public function __construct()

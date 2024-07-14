@@ -59,32 +59,9 @@ class OrderController
     public function createOrder(Request $request): JsonResponse
     {
         $json = json_decode($request->getContent(), true);
-
-//        if (!is_array($json)) {
-//            throw new InvalidArgumentException("Invalid json");
-//        }
-//
-//        if (!array_key_exists('id', $json)) {
-//            throw new InvalidArgumentException("Invalid json, id not provided");
-//        }
-//
-//        if (!is_string($json['id'])) {
-//            throw new InvalidArgumentException("Invalid json, id not a string");
-//        }
-//
-//        if (!array_key_exists('price', $json)) {
-//            throw new InvalidArgumentException("Invalid json, price not provided");
-//        }
-//
-//        if (!is_int($json['price'])) {
-//            throw new InvalidArgumentException("Invalid json, price not an integer");
-//        }
         $orderDTO = OrderHydrator::hydrate($json);
-
-
-        $this->orderService->countFullPriceForOrder($orderDTO);
-
-        return new JsonResponse();
+        $order = $this->orderService->createOrder($orderDTO);
+        return $this->jsonResponseBuilder($order);
     }
 
     /**
@@ -93,6 +70,7 @@ class OrderController
      */
     private function jsonResponseBuilder(Order $order): JsonResponse
     {
+
         $jsonResponse = new JsonResponse();
         $json = [
             'id' => $order->getId(),

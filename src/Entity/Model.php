@@ -26,7 +26,7 @@ class Model
     #[ORM\Column(name: 'durability', type: 'integer')]
     private int $durability;
     #[ORM\ManyToOne(targetEntity: Order::class, fetch: 'EXTRA_LAZY', inversedBy: 'models')]
-    #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id', nullable: false,onDelete: 'RESTRICT')]
+    #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id', nullable: false, onDelete: 'RESTRICT')]
     protected Order $order;
 
 
@@ -78,16 +78,14 @@ class Model
         return $this;
     }
 
-    public function getOrders(): Collection
+    public function getOrder(): Order
     {
-        return $this->orders;
+        return $this->order;
     }
 
-    public function setOrders(Collection $orders): Model
+    public function setOrder(Order $order): Model
     {
-        $this->orders = $orders;
+        $this->order = $order;
         return $this;
     }
-
-
 }

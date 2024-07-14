@@ -7,11 +7,11 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
 #[
     ORM\Table(name: 'orders'),
     ORM\Entity(repositoryClass: OrderRepository::class)
 ]
-
 class Order
 {
     #[ORM\Id()]
@@ -26,9 +26,9 @@ class Order
     private int $price;
 
     #[ORM\Column(name: 'status', type: 'string')]
-    private int $status;
+    private string $status;
 
-    #[ORM\OneToMany(mappedBy: 'order',targetEntity: Model::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
+    #[ORM\OneToMany(mappedBy: 'order', targetEntity: Model::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     private Collection $models;
 
     public function __construct()
@@ -68,12 +68,12 @@ class Order
         return $this;
     }
 
-    public function getStatus(): int
+    public function getStatus(): string
     {
         return $this->status;
     }
 
-    public function setStatus(int $status): Order
+    public function setStatus(string $status): Order
     {
         $this->status = $status;
         return $this;
@@ -89,15 +89,4 @@ class Order
         $this->models = $models;
         return $this;
     }
-
-    /**
-     * @param Model $model
-     * @return $this
-     */
-    public function addModel(Model $model): self
-    {
-        $this->models->add($model);
-        return $this;
-    }
-
 }
