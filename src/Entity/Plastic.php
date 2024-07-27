@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PlasticRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[
@@ -27,6 +28,15 @@ class Plastic
 
     #[ORM\Column(name: 'min_temperature', type: 'integer')]
     private int $minTemperature;
+
+    #[ORM\Column(name: 'price_per_meter', type: 'integer')]
+    private int $pricePerMeter;
+
+    /**
+     * @var Collection<Model>
+     */
+    #[ORM\OneToMany(mappedBy: 'plastic', targetEntity: Model::class, fetch: 'EXTRA_LAZY')]
+    private Collection $model;
 
     public function __construct()
     {
@@ -87,5 +97,24 @@ class Plastic
         return $this;
     }
 
+    public function getPricePerMeter(): int
+    {
+        return $this->pricePerMeter;
+    }
 
+    public function setPricePerMeter(int $pricePerMeter): Plastic
+    {
+        $this->pricePerMeter = $pricePerMeter;
+        return $this;
+    }
+
+    public function getModel(): Model
+    {
+        return $this->model;
+    }
+
+    public function setModel(Model $model): void
+    {
+        $this->model = $model;
+    }
 }

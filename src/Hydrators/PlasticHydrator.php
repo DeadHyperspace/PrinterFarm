@@ -14,7 +14,8 @@ class PlasticHydrator
             ->setName($data['name'] ?? null)
             ->setLength($data['length'] ?? null)
             ->setDurability($data['durability'] ?? null)
-            ->setMinTemperature($data['min_temperature'] ?? null);
+            ->setMinTemperature($data['min_temperature'] ?? null)
+            ->setPricePerMeter($data['price_per_meter'] ?? null);
         return $dto;
     }
 }

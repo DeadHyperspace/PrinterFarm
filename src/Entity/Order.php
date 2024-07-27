@@ -7,11 +7,11 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
 #[
     ORM\Table(name: 'orders'),
     ORM\Entity(repositoryClass: OrderRepository::class)
 ]
-
 class Order
 {
     #[ORM\Id()]
@@ -26,13 +26,13 @@ class Order
     private int $price;
 
     #[ORM\Column(name: 'status', type: 'string')]
-    private int $status;
+    private string $status;
 
-    #[ORM\ManyToOne(targetEntity: Model::class)]
-    #[ORM\JoinTable(name: 'order_models')]
-    #[ORM\JoinColumn(name:'order_id', referencedColumnName: 'id')]
-    #[ORM\InverseJoinColumn(name: 'model_id', referencedColumnName: 'id')]
+    #[ORM\OneToMany(mappedBy: 'order', targetEntity: Model::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     private Collection $models;
+
+    #[ORM\Column(name: 'complete_time', type: 'integer', nullable: true)]
+    private int $completeTime;
 
     public function __construct()
     {
@@ -71,12 +71,12 @@ class Order
         return $this;
     }
 
-    public function getStatus(): int
+    public function getStatus(): string
     {
         return $this->status;
     }
 
-    public function setStatus(int $status): Order
+    public function setStatus(string $status): Order
     {
         $this->status = $status;
         return $this;
@@ -93,5 +93,15 @@ class Order
         return $this;
     }
 
+    public function getCompleteTime(): int
+    {
+        return $this->completeTime;
+    }
+
+    public function setCompleteTime(int $completeTime): Order
+    {
+        $this->completeTime = $completeTime;
+        return $this;
+    }
 
 }

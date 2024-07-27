@@ -29,7 +29,7 @@ class ModelController
      * @return JsonResponse
      * @throws Exception
      */
-    
+
     #[Route('/getModel', name: 'get_model', methods: ['GET'])]
     public function getModel(Request $request): JsonResponse
     {
@@ -107,6 +107,7 @@ class ModelController
             'name' => $model->getName(),
             'plastic_length' => $model->getPlasticLength(),
             'durability' => $model->getDurability(),
+            'order_id' => $model->getOrders()
         ];
         $jsonResponse->setData(json_encode($json));
         return $jsonResponse;

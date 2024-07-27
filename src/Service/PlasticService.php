@@ -38,7 +38,8 @@ class PlasticService
         $plastic->setName($plasticDTO->getName())
             ->setLength($plasticDTO->getLength())
             ->setDurability($plasticDTO->getDurability())
-            ->setMinTemperature($plasticDTO->getMinTemperature());
+            ->setMinTemperature($plasticDTO->getMinTemperature())
+            ->setPricePerMeter($plasticDTO->getPricePerMeter());
 
         $this->entityManager->persist($plastic);
         $this->entityManager->flush();

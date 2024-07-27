@@ -25,10 +25,13 @@ class Model
 
     #[ORM\Column(name: 'durability', type: 'integer')]
     private int $durability;
+    #[ORM\ManyToOne(targetEntity: Order::class, fetch: 'EXTRA_LAZY', inversedBy: 'models')]
+    #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id', nullable: false, onDelete: 'RESTRICT')]
+    protected Order $order;
 
-    #[ORM\ManyToMany(targetEntity: Order::class, inversedBy: 'models')]
-    #[ORM\JoinTable(name: 'order_models')]
-    private Collection $orders;
+    #[ORM\ManyToOne(targetEntity: Plastic::class, fetch: 'EXTRA_LAZY', inversedBy: 'plastics')]
+    #[ORM\JoinColumn(name: 'plastic_id', referencedColumnName: 'id',nullable: true)]
+    private ?Plastic $plastic;
 
     public function __construct()
     {
@@ -78,14 +81,26 @@ class Model
         return $this;
     }
 
-    public function getOrders(): Collection
+    public function getOrder(): Order
     {
-        return $this->orders;
+        return $this->order;
     }
 
-    public function setOrders(Collection $orders): Model
+    public function setOrder(Order $order): Model
     {
-        $this->orders = $orders;
+        $this->order = $order;
         return $this;
     }
+
+    public function getPlastic(): ?Plastic
+    {
+        return $this->plastic;
+    }
+
+    public function setPlastic(?Plastic $plastic): Model
+    {
+        $this->plastic = $plastic;
+        return $this;
+    }
+
 }

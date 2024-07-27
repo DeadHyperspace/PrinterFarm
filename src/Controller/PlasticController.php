@@ -51,6 +51,10 @@ class PlasticController
         return $this->jsonResponseBuilder($plastic);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     #[Route('/createPlastic', name: 'create_plastic', methods: ['POST'])]
     public function createPlastic(Request $request): JsonResponse
     {
@@ -107,7 +111,8 @@ class PlasticController
             'name' => $plastic->getName(),
             'length' => $plastic->getLength(),
             'durability' => $plastic->getDurability(),
-            'min_temperature' => $plastic->getMinTemperature()
+            'min_temperature' => $plastic->getMinTemperature(),
+            'price_per_meter' => $plastic->getPricePerMeter()
         ];
         $jsonResponse->setData(json_encode($json));
         return $jsonResponse;
