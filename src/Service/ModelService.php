@@ -6,6 +6,7 @@ use App\DTO\ModelDTO;
 use App\DTO\OrderRequestDTO;
 use App\Entity\Model;
 use App\Entity\Order;
+use App\Entity\Plastic;
 use App\Repository\ModelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -23,13 +24,14 @@ class ModelService
         return $this->modelRepository->findOneBy(['name' => $name]);
     }
 
-    public function createModel(ModelDTO $modelDTO, Order $order): Model
+    public function createModel(ModelDTO $modelDTO, Order $order, Plastic $plastic): Model
     {
         $model = new Model;
         $model->setName($modelDTO->getName())
             ->setOrder($order)
             ->setDurability($modelDTO->getDurability())
-            ->setPlasticLength($modelDTO->getPlasticLength());
+            ->setPlasticLength($modelDTO->getPlasticLength())
+            ->setPlastic($plastic);
         return $model;
     }
 }

@@ -29,6 +29,9 @@ class Model
     #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id', nullable: false, onDelete: 'RESTRICT')]
     protected Order $order;
 
+    #[ORM\ManyToOne(targetEntity: Plastic::class, fetch: 'EXTRA_LAZY', inversedBy: 'plastics')]
+    #[ORM\JoinColumn(name: 'plastic_id', referencedColumnName: 'id',nullable: true)]
+    private ?Plastic $plastic;
 
     public function __construct()
     {
@@ -88,4 +91,16 @@ class Model
         $this->order = $order;
         return $this;
     }
+
+    public function getPlastic(): ?Plastic
+    {
+        return $this->plastic;
+    }
+
+    public function setPlastic(?Plastic $plastic): Model
+    {
+        $this->plastic = $plastic;
+        return $this;
+    }
+
 }

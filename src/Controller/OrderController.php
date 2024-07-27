@@ -4,12 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Hydrators\OrderHydrator;
+use App\Hydrators\OrderProcessHydrator;
 use App\Service\OrderService;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class OrderController
@@ -53,8 +56,8 @@ class OrderController
     /**
      * @param Request $request
      * @return JsonResponse
+     * @throws NonUniqueResultException
      */
-
     #[Route('/createOrder', name: 'create_order', methods: ['POST'])]
     public function createOrder(Request $request): JsonResponse
     {
@@ -62,6 +65,24 @@ class OrderController
         $orderDTO = OrderHydrator::hydrate($json);
         $order = $this->orderService->createOrder($orderDTO);
         return $this->jsonResponseBuilder($order);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Doctrine\DBAL\Exception
+     */
+    #[Route('/processOrder', name: 'process_order', methods: ['POST'])]
+    public function processOrder(Request $request): JsonResponse
+    {
+        $json = json_decode($request->getContent(), true);
+        $orderProcessDTO = OrderProcessHydrator::hydrate($json);
+        try {
+            $this->orderService->processOrder($orderProcessDTO->getId());
+        } catch (Exception $exception) {
+            return new JsonResponse($exception->getMessage() . $exception->getTraceAsString(), 500);
+        }
+        return new JsonResponse(null, 200);
     }
 
     /**

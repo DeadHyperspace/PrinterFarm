@@ -31,6 +31,9 @@ class Order
     #[ORM\OneToMany(mappedBy: 'order', targetEntity: Model::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     private Collection $models;
 
+    #[ORM\Column(name: 'complete_time', type: 'integer', nullable: true)]
+    private int $completeTime;
+
     public function __construct()
     {
     }
@@ -89,4 +92,16 @@ class Order
         $this->models = $models;
         return $this;
     }
+
+    public function getCompleteTime(): int
+    {
+        return $this->completeTime;
+    }
+
+    public function setCompleteTime(int $completeTime): Order
+    {
+        $this->completeTime = $completeTime;
+        return $this;
+    }
+
 }

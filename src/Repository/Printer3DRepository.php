@@ -13,4 +13,16 @@ class Printer3DRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Printer3D::class);
     }
+
+    public function get3dPrinterByMaxTemperature(int $minTempOfPlastic): ?Printer3D
+    {
+        $qb = $this->createQueryBuilder('printers_3d');
+        $printer = $qb->select('p')
+            ->from('App\Entity\Printer3D', 'p')
+            ->where(sprintf('p.maxTemperature >= %d', $minTempOfPlastic))
+            ->orderBy('p.maxTemperature')
+            ->getQuery()->getResult();
+
+        return $printer[0] ?? null;
+    }
 }

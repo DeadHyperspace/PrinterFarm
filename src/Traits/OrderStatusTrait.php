@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait OrderStatusTrait
 {
-    public $created = 'created';
-    public $inProgress = 'in_progress';
-    public $completed = 'completed';
+    public string $created = 'created';
+    public string $inProgress = 'in_progress';
+    public string $completed = 'completed';
 }
